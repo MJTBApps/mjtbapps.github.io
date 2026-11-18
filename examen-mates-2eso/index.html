@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101c37">
+<meta name="description" content="Examen interactivo de Matemáticas de 2.º de ESO: 10 preguntas sobre potencias, raíces y decimales. Corrección automática, nota y plan de repaso.">
+<title>Examen de Mates · 2.º ESO</title>
+<style>
+:root{--navy:#101c37;--blue:#3158e7;--light:#eef3ff;--line:#e3e8f2;--ink:#162342;--muted:#61708c;--green:#137b54;--red:#bc3b50;--gold:#ae6d08}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(145deg,#eef3ff,#f8faff 50%,#f5f3ff);font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--ink)}
+.wrap{max-width:860px;margin:0 auto;padding:25px 18px 65px}
+header{background:var(--navy);color:white;border-radius:23px;padding:28px 30px;box-shadow:0 12px 30px #1a2a5520;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;right:-48px;top:-70px;width:240px;height:240px;background:radial-gradient(circle,#6580fb59,transparent 70%);pointer-events:none}
+.eyebrow{letter-spacing:.15em;font-size:12px;font-weight:800;text-transform:uppercase;color:#aabaff}
+h1{font-size:clamp(26px,5vw,39px);line-height:1.13;margin:10px 0 10px;font-weight:850;letter-spacing:-.035em}
+header p{color:#c5d0ec;margin:0;line-height:1.5;max-width:600px;font-size:15px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:19px}
+.pill{border:1px solid #ffffff34;background:#ffffff17;border-radius:60px;padding:6px 12px;font-size:12px;font-weight:650}
+.panel{background:white;border:1px solid #e7eaf2;border-radius:22px;padding:28px 30px;margin-top:22px;box-shadow:0 8px 30px #20305a0b}
+.barline{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.micro{color:var(--muted);font-size:13px;font-weight:650}
+.progress{height:9px;background:var(--light);border-radius:99px;overflow:hidden;margin:15px 0 26px}
+.progress>div{height:100%;background:linear-gradient(90deg,#4165e8,#8f6fe9);border-radius:99px;transition:width .2s}
+.tag{display:inline-block;font-size:12px;font-weight:800;color:#3b55bd;background:#eff2ff;padding:7px 12px;border-radius:40px}
+.question{font-size:clamp(21px,4vw,29px);font-weight:750;line-height:1.46;margin:21px 0 25px;letter-spacing:-.02em}
+.question sup{font-size:.68em}
+.help{color:var(--muted);font-size:14px;margin:0 0 12px}
+.answer{display:block;width:100%;border:2px solid #dce3f4;border-radius:14px;padding:17px 18px;font-size:22px;font-weight:650;color:var(--ink);outline:none;transition:border .15s;background:#fcfdff}
+.answer:focus{border-color:var(--blue);box-shadow:0 0 0 4px #3158e717}
+.choices{display:grid;gap:12px}
+.choice{display:flex;align-items:center;gap:13px;border:2px solid #e2e7f5;border-radius:13px;padding:17px;cursor:pointer;line-height:1.4;font-weight:600;transition:all .15s}
+.choice:hover{border-color:#a8b8ef;background:#f7f9ff}
+.choice:has(input:checked){border-color:var(--blue);background:#f0f4ff}
+.choice input{accent-color:var(--blue);width:18px;height:18px;flex:0 0 18px}
+.note{font-size:12px;color:var(--muted);margin-top:12px}
+.actions{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:30px}
+button{font:inherit;cursor:pointer;border:0;font-weight:750;transition:background .15s,transform .15s}
+button:active{transform:translateY(1px)}
+.btn{border-radius:12px;padding:13px 22px;background:var(--blue);color:white}
+.btn:hover{background:#2445c1}
+.btn.sec{background:#eff2f8;color:#2b3e67}
+.btn.sec:hover{background:#e2e8f6}
+.btn:disabled{opacity:.4;cursor:default}
+.jump{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:19px}
+.dot{width:30px;height:30px;border-radius:8px;background:#e8edf7;color:#536481;font-size:12px}
+.dot.active{background:var(--navy);color:white}
+.dot.answered:not(.active){background:#d8e4ff;color:#2d55a5}
+.footer{color:#8090aa;text-align:center;margin-top:22px;font-size:12px}
+.result-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px}
+.score{background:var(--navy);color:white;border-radius:20px;padding:19px 24px;text-align:center;min-width:146px}
+.score b{font-size:48px;letter-spacing:-.06em}
+.score span{font-size:15px;color:#aebce1}
+.result-head h2{font-size:clamp(24px,4vw,30px);margin:0 0 7px}
+.result-head p{line-height:1.5;color:var(--muted);margin:0}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:12px 15px;color:var(--muted);font-size:13px}
+.kpi strong{display:block;font-size:22px;color:var(--ink)}
+.section-title{font-size:19px;margin:0 0 15px}
+.review-list{display:grid;gap:10px}
+.review{background:#fff9e9;border:1px solid #f1dca7;border-radius:13px;padding:15px 17px;line-height:1.48}
+.review strong{color:#82550c}
+.review small{color:#665a45;display:block;margin-top:4px}
+.empty{background:#e9f7ef;color:#11683f;border-radius:13px;padding:17px}
+.item{border:1px solid var(--line);border-radius:13px;overflow:hidden;margin-top:10px}
+.item summary{padding:15px 17px;display:flex;gap:12px;align-items:center;cursor:pointer;list-style:none;font-size:14px;font-weight:650}
+.item summary::-webkit-details-marker{display:none}
+.item summary::after{content:"+";margin-left:auto;font-size:20px;font-weight:400}
+.item[open] summary::after{content:"−"}
+.status{flex:0 0 auto;border-radius:7px;padding:4px 7px;font-size:11px;font-weight:800}
+.ok{background:#e5f6ec;color:var(--green)}
+.bad{background:#fff0ef;color:var(--red)}
+.detail{border-top:1px solid var(--line);padding:15px 17px;line-height:1.62;font-size:14px}
+.detail p{margin:5px 0}
+.detail .mistake{color:var(--red);font-weight:700}
+.detail .correct{color:var(--green);font-weight:750}
+.detail .reason{padding:10px 13px;border-radius:10px;background:#f5f7fd;margin-top:11px}
+.end-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+@media(max-width:600px){.wrap{padding:12px 11px 45px}header{padding:25px 21px}.panel{padding:22px 19px;margin-top:13px}.btn{padding:13px 16px}.result-head{align-items:stretch}.score{min-width:120px}.question{margin:20px 0}.actions{gap:7px}}
+@media print{body{background:white}.wrap{max-width:none}.actions,.jump,.end-actions{display:none}header{box-shadow:none}.item .detail{display:block}.item{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="eyebrow">Matemáticas · 2.º de ESO</div>
+<h1>Tu examen de mates</h1>
+<p>Basado en tus apuntes: potencias, raíces y números decimales. Resuelve las 10 preguntas y descubre tu nota, tus errores y qué repasar.</p>
+<div class="pills"><span class="pill">10 preguntas</span><span class="pill">Nota sobre 10</span><span class="pill">Corrección explicada</span></div>
+</header>
+<main id="root" aria-live="polite"></main>
+<div class="footer">Examen de repaso · Puedes usar coma o punto para escribir decimales.</div>
+</div>
+<script>
+(function(){
+"use strict";
+var qs=[
+{id:1,topic:"Potencias de base negativa",group:"Potencias",kind:"number",html:"Calcula: <strong>(−3)<sup>4</sup></strong>",answer:81,shown:"81",explain:"Como la base negativa está entre paréntesis y el exponente 4 es par, el resultado es positivo: (−3) × (−3) × (−3) × (−3) = 81.",review:"Potencias con base negativa: exponente par da positivo e impar da negativo."},
+{id:2,topic:"Producto y cociente de potencias",group:"Potencias",kind:"number",html:"Calcula: <strong>2<sup>7</sup> · 2<sup>3</sup> : 2<sup>8</sup></strong>",answer:4,shown:"4",explain:"Con la misma base, al multiplicar sumamos exponentes y al dividir los restamos: 2^(7+3−8) = 2² = 4.",review:"Reglas de potencias de la misma base: suma y resta de exponentes."},
+{id:3,topic:"Potencia de una potencia",group:"Potencias",kind:"number",html:"Calcula: <strong>(3<sup>2</sup>)<sup>3</sup></strong>",answer:729,shown:"729",explain:"En una potencia de una potencia se multiplican exponentes: 3^(2×3) = 3⁶ = 729.",review:"Potencia de una potencia: multiplicar los exponentes."},
+{id:4,topic:"Cambio de base",group:"Potencias",kind:"number",html:"Calcula: <strong>8<sup>3</sup> : 2<sup>6</sup></strong>",answer:8,shown:"8",explain:"8 = 2³, por eso 8³ = (2³)³ = 2⁹. Después: 2⁹ : 2⁶ = 2³ = 8.",review:"Cambio de base antes de operar potencias con bases distintas."},
+{id:5,topic:"Raíz cuadrada",group:"Raíces",kind:"number",html:"Calcula: <strong>√196</strong>",answer:14,shown:"14",explain:"14 × 14 = 196, así que √196 = 14. Recuerda: el símbolo √ indica la raíz principal, que no es negativa.",review:"Cuadrados perfectos y raíces cuadradas."},
+{id:6,topic:"Raíz cúbica de un negativo",group:"Raíces",kind:"number",html:"Calcula: <strong>∛(−125)</strong>",answer:-5,shown:"−5",explain:"(−5) × (−5) × (−5) = −125, así que ∛(−125) = −5. Las raíces de índice impar admiten números negativos.",review:"Raíces cúbicas y signos en raíces de índice par e impar."},
+{id:7,topic:"Ordenación de decimales",group:"Decimales",kind:"choice",html:"¿Cuál es el orden <strong>de menor a mayor</strong> de estos números: 1,05; 1,5; 1,005?",options:[{id:"a",label:"1,005 < 1,05 < 1,5"},{id:"b",label:"1,05 < 1,005 < 1,5"},{id:"c",label:"1,5 < 1,05 < 1,005"}],answer:"a",shown:"1,005 < 1,05 < 1,5",explain:"Si igualas cifras decimales, obtienes 1,005; 1,050 y 1,500. Por eso: 1,005 < 1,05 < 1,5.",review:"Comparación y ordenación de números decimales, completando con ceros."},
+{id:8,topic:"Redondeo de decimales",group:"Decimales",kind:"number",html:"Redondea <strong>5,627</strong> a las <strong>centésimas</strong>.",answer:5.63,shown:"5,63",explain:"Las centésimas son la segunda cifra decimal (2). La tercera cifra es 7; como es 5 o mayor, aumentamos 2 a 3: 5,63.",review:"Aproximación por redondeo a unidades, décimas y centésimas."},
+{id:9,topic:"Suma y resta de decimales",group:"Decimales",kind:"number",html:"Calcula: <strong>12,5 + 0,86 − 3,075</strong>",answer:10.285,shown:"10,285",explain:"Alinea las comas y añade ceros: 12,500 + 0,860 = 13,360; 13,360 − 3,075 = 10,285.",review:"Suma y resta de números decimales alineando correctamente las comas."},
+{id:10,topic:"Multiplicación y división de decimales",group:"Decimales",kind:"number",html:"Calcula: <strong>(2,4 × 0,5) : 0,3</strong>",answer:4,shown:"4",explain:"Primero multiplicas: 2,4 × 0,5 = 1,2. Después divides: 1,2 : 0,3 = 12 : 3 = 4.",review:"Multiplicación de decimales y división quitando la coma del divisor."}
+];
+var saved=new Array(10).fill("");
+var pos=0,finished=false;
+var root=document.getElementById("root");
+function enc(s){return String(s).replace(/[&<>"']/g,function(x){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]})}
+function validNum(s){var t=String(s).trim().replace(/\s+/g,"").replace(",",".").replace("−","-");if(!/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(t))return NaN;return Number(t)}
+function isCorrect(q,answer){if(answer==="")return false;if(q.kind==="choice")return answer===q.answer;return Math.abs(validNum(answer)-q.answer)<1e-8}
+function answeredCount(){return saved.filter(function(a){return a!==""}).length}
+function render(){
+if(finished){renderResults();return}
+var q=qs[pos],pct=(pos+1)*10;
+var options=q.kind==="choice"?'<div class="choices" role="radiogroup" aria-label="Respuesta">'+q.options.map(function(o){return '<label class="choice"><input type="radio" name="respuesta" value="'+o.id+'" '+(saved[pos]===o.id?'checked':'')+'><span>'+enc(o.label)+'</span></label>'}).join("")+'</div>':'<label class="help" for="respuesta">Escribe solo el resultado:</label><input class="answer" id="respuesta" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu resultado..." value="'+enc(saved[pos])+'" aria-label="Tu respuesta">';
+root.innerHTML='<section class="panel"><div class="barline"><span class="micro">Pregunta '+(pos+1)+' de 10</span><span class="micro">'+answeredCount()+' respondidas</span></div><div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="'+(pos+1)+'"><div style="width:'+pct+'%"></div></div><span class="tag">'+enc(q.topic)+'</span><div class="question">'+q.html+'</div>'+options+'<div class="note">Cada pregunta vale 1 punto. Puedes volver atrás y cambiar tus respuestas.</div><div class="actions"><button class="btn sec" id="prev" '+(pos===0?'disabled':'')+'>Anterior</button><button class="btn" id="next">'+(pos===9?'Corregir examen':'Siguiente')+'</button></div></section><nav class="jump" aria-label="Ir a una pregunta">'+qs.map(function(x,i){return '<button class="dot '+(i===pos?'active ':'')+(saved[i]!==""?'answered':'')+'" data-jump="'+i+'" aria-label="Pregunta '+(i+1)+'">'+(i+1)+'</button>'}).join("")+'</nav>';
+if(q.kind==="choice"){root.querySelectorAll('input[name="respuesta"]').forEach(function(el){el.addEventListener("change",function(){saved[pos]=el.value;root.querySelectorAll(".dot").forEach(function(d,i){d.classList.toggle("answered",saved[i]!=="")});root.querySelector(".barline .micro:last-child").textContent=answeredCount()+" respondidas";})})}
+else{var inp=document.getElementById("respuesta");inp.addEventListener("input",function(){saved[pos]=inp.value;root.querySelectorAll(".dot").forEach(function(d,i){d.classList.toggle("answered",saved[i]!=="")});root.querySelector(".barline .micro:last-child").textContent=answeredCount()+" respondidas";});inp.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();advance()}})}
+document.getElementById("prev").onclick=function(){if(pos>0){pos--;render()}};
+document.getElementById("next").onclick=advance;
+root.querySelectorAll("[data-jump]").forEach(function(el){el.onclick=function(){pos=Number(el.getAttribute("data-jump"));render()}});
+}
+function advance(){if(pos<9){pos++;render()}else{finished=true;render();window.scrollTo({top:0,behavior:"smooth"})}}
+function renderResults(){
+var correct=qs.filter(function(q,i){return isCorrect(q,saved[i])}).length;
+var wrong=10-correct;var omitted=saved.filter(function(a){return a===""}).length;
+var byTopic={};qs.forEach(function(q,i){if(!isCorrect(q,saved[i])){if(!byTopic[q.group])byTopic[q.group]=[];byTopic[q.group].push(q)}});
+var heading=correct>=9?"¡Muy buen resultado!":correct>=7?"¡Vas por buen camino!":correct>=5?"Tienes una buena base para mejorar":"Vamos a reforzar lo importante";
+var review=Object.keys(byTopic).length?'<div class="review-list">'+Object.keys(byTopic).map(function(group){return '<div class="review"><strong>'+enc(group)+' · '+byTopic[group].length+' '+(byTopic[group].length===1?'pregunta a revisar':'preguntas a revisar')+'</strong>'+byTopic[group].map(function(q){return '<small>• '+enc(q.review)+'</small>'}).join("")+'</div>'}).join("")+'</div>':'<div class="empty">¡Has acertado todas! No hay errores que repasar en este examen.</div>';
+var details=qs.map(function(q,i){var ok=isCorrect(q,saved[i]),user=saved[i]!==""?(q.kind==="choice"?q.options.filter(function(o){return o.id===saved[i]})[0].label:saved[i]):"Sin responder";return '<details class="item" '+(!ok?'open':'')+'><summary><span class="status '+(ok?'ok':'bad')+'">'+(ok?'BIEN':'ERROR')+'</span><span>'+q.id+'. '+enc(q.topic)+'</span></summary><div class="detail"><p><strong>Enunciado:</strong> '+q.html+'</p><p><strong>Tu respuesta:</strong> <span class="'+(ok?'correct':'mistake')+'">'+enc(user)+'</span></p><p><strong>Respuesta correcta:</strong> <span class="correct">'+enc(q.shown)+'</span></p><div class="reason"><strong>Explicación:</strong> '+enc(q.explain)+'</div>'+(ok?'':'<p><strong>Repasa:</strong> '+enc(q.review)+'</p>')+'</div></details>'}).join("");
+root.innerHTML='<section class="panel"><div class="result-head"><div><span class="tag">Examen corregido</span><h2 style="margin-top:15px">'+heading+'</h2><p>Estas son tus respuestas y lo que debes repasar antes del examen.</p></div><div class="score"><b>'+correct+'</b><span> / 10</span><div style="font-size:12px;color:#c9d4f4;margin-top:2px">TU NOTA</div></div></div><div class="kpis"><div class="kpi"><strong>'+correct+'</strong>aciertos</div><div class="kpi"><strong>'+wrong+'</strong>errores o sin responder</div><div class="kpi"><strong>'+omitted+'</strong>sin responder</div></div></section><section class="panel"><h3 class="section-title">Qué necesitas repasar</h3>'+review+'</section><section class="panel"><h3 class="section-title">Corrección de las 10 preguntas</h3><p class="micro" style="margin:0 0 12px">Abre o cierra cada pregunta para ver su explicación.</p>'+details+'<div class="end-actions"><button class="btn" id="retry">Repetir examen</button><button class="btn sec" id="print">Imprimir resultados</button></div></section>';
+document.getElementById("retry").onclick=function(){saved=new Array(10).fill("");pos=0;finished=false;render();window.scrollTo({top:0,behavior:"smooth"})};
+document.getElementById("print").onclick=function(){window.print()};
+}
+render();
+})();
+</script>
+</body>
+</html>
